@@ -1,230 +1,493 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>智在生活｜專屬智能神隊友</title>
-<meta name="description" content="智在生活，從真實生活需求出發，打造簡單、實用的 App，讓生活少一點繁瑣，多一點便利。">
-
-<!-- Open Graph -->
-<meta property="og:title" content="智在生活｜專屬智能神隊友">
-<meta property="og:description" content="智在生活，從真實生活需求出發，打造簡單、實用的 App，讓生活少一點繁瑣，多一點便利。">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="zh_TW">
-<!-- 之後可替換為正式網址與封面圖 -->
-<!-- <meta property="og:url" content="https://handyassist-system.github.io/"> -->
-<!-- <meta property="og:image" content="/images/og-cover.png"> -->
-
+<title>智在生活</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* 版面概念：帳冊。細線分欄、表格式價目、單據感的標籤，不用卡片堆疊與陰影。 */
+:root{
+  --paper:#EDEEE9; --paper-2:#E5E7E1; --panel:#F6F7F3;
+  --ink:#1B241F; --ink-2:#59635C; --ink-3:#8B948C;
+  --rule:#CDD2CA; --rule-2:#DFE3DC;
+  --brand:#14564A; --brand-ink:#FFFFFF; --brand-soft:#DDE7E2;
+  --p-home:#2F7F73; --p-cook:#9E4228; --p-trip:#2C6E7E; --p-crm:#3D6A89;
+  --serif:"Noto Serif TC",Songti TC,serif;
+  --sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:4px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#141815; --paper-2:#1C211D; --panel:#1A1F1B;
+  --ink:#E7EBE5; --ink-2:#A2ABA3; --ink-3:#737C75;
+  --rule:#2D342E; --rule-2:#242A25;
+  --brand:#6FBCA7; --brand-ink:#0E1512; --brand-soft:#1D2B26;
+  --p-home:#63B7A8; --p-cook:#D08160; --p-trip:#63AABD; --p-crm:#7FAAC7;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#141815; --paper-2:#1C211D; --panel:#1A1F1B;
+  --ink:#E7EBE5; --ink-2:#A2ABA3; --ink-3:#737C75;
+  --rule:#2D342E; --rule-2:#242A25;
+  --brand:#6FBCA7; --brand-ink:#0E1512; --brand-soft:#1D2B26;
+  --p-home:#63B7A8; --p-cook:#D08160; --p-trip:#63AABD; --p-crm:#7FAAC7;
+  color-scheme:dark;
+}
 
-<link rel="stylesheet" href="style.css">
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+     font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0;line-height:1.35}
+p{margin:0}
+a{color:inherit}
+.lab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
-<!-- Favicon：之後可替換為品牌圖示 -->
-<!-- <link rel="icon" href="/images/favicon.png"> -->
-</head>
-<body>
+/* ---------- 頁首 ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);
+     border-bottom:1px solid var(--rule)}
+.top-in{max-width:1040px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px}
+.mark{font-family:var(--serif);font-weight:900;font-size:19px;letter-spacing:.04em;white-space:nowrap}
+.mark span{color:var(--brand)}
+.tag{font-size:11.5px;color:var(--ink-2);border-left:1px solid var(--rule);padding-left:12px;
+     flex:1;min-width:0;letter-spacing:.04em}
+.top nav{display:flex;gap:18px;font-size:13.5px}
+.top nav a{text-decoration:none;color:var(--ink-2);padding:6px 0;border-bottom:1px solid transparent}
+.top nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
+@media(max-width:700px){.tag{display:none}.top nav{flex:1;justify-content:flex-end;gap:14px;font-size:13px}}
 
-<a class="skip-link" href="#main">跳到主要內容</a>
+/* ---------- Hero ---------- */
+.hero{padding-block:clamp(40px,8vw,84px) clamp(34px,6vw,56px);border-bottom:1px solid var(--rule)}
+.hero h1{font-size:clamp(30px,6.4vw,54px);font-weight:900;letter-spacing:-.01em;max-width:16em}
+.hero h1 em{font-style:normal;color:var(--brand);
+  background:linear-gradient(transparent 68%,var(--brand-soft) 68%)}
+.hero .sub{margin-top:20px;font-size:clamp(15px,2.1vw,17.5px);color:var(--ink-2);max-width:34em}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;
+     padding:0 26px;border-radius:var(--r);font-family:var(--sans);font-size:15.5px;font-weight:700;
+     text-decoration:none;border:1px solid transparent;cursor:pointer;transition:.15s}
+.btn-1{background:var(--brand);color:var(--brand-ink)}
+.btn-1:hover{filter:brightness(1.12)}
+.btn-2{background:transparent;color:var(--ink);border-color:var(--ink-3)}
+.btn-2:hover{border-color:var(--brand);color:var(--brand)}
+.btn-s{min-height:42px;padding:0 18px;font-size:14px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:26px;font-size:13px;color:var(--ink-2)}
+.hero-meta b{font-family:var(--mono);color:var(--ink);font-weight:600}
 
-<header class="site-header" id="siteHeader">
-  <div class="wrap header-inner">
-    <a class="brand-mark" href="#top">智在生活</a>
-    <nav class="main-nav" aria-label="主選單">
+/* ---------- 分流 ---------- */
+.fork{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--rule)}
+.fork > div{padding:30px 0 34px}
+.fork > div:first-child{border-right:1px solid var(--rule);padding-right:34px}
+.fork > div:last-child{padding-left:34px}
+.fork h3{font-size:19px;margin-bottom:6px}
+.fork p{font-size:14.5px;color:var(--ink-2);margin-bottom:14px}
+.fork ul{margin:0;padding:0;list-style:none;font-size:14.5px}
+.fork li{padding:7px 0;border-top:1px solid var(--rule-2);display:flex;gap:10px}
+.fork li b{font-weight:500}
+.fork li span{color:var(--ink-3);font-family:var(--mono);font-size:12px;margin-left:auto;white-space:nowrap}
+@media(max-width:680px){
+  .fork{grid-template-columns:1fr}
+  .fork > div:first-child{border-right:none;border-bottom:1px solid var(--rule);padding-right:0}
+  .fork > div:last-child{padding-left:0}
+}
+
+/* ---------- 產品 ---------- */
+.sec-head{padding-block:clamp(40px,7vw,70px) 4px}
+.sec-head h2{font-size:clamp(23px,4vw,34px)}
+.sec-head p{color:var(--ink-2);font-size:15px;margin-top:8px;max-width:38em}
+.prod{display:grid;grid-template-columns:1fr 300px;gap:44px;align-items:start;
+      padding-block:38px;border-top:1px solid var(--rule)}
+.prod:nth-child(even) .shot{order:-1}
+.prod-tag{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prod-tag i{width:26px;height:2px;background:var(--pc);display:block}
+.prod-tag span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--pc);text-transform:uppercase}
+.prod h3{font-size:clamp(21px,3.4vw,27px)}
+.prod .lead{color:var(--ink-2);font-size:15px;margin-top:10px;max-width:32em}
+.feat{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:0}
+.feat li{display:grid;grid-template-columns:132px 1fr;gap:16px;padding:10px 0;
+         border-top:1px solid var(--rule-2);font-size:14.5px}
+.feat li b{font-weight:600;color:var(--ink)}
+.feat li span{color:var(--ink-2)}
+@media(max-width:520px){.feat li{grid-template-columns:1fr;gap:2px}}
+.prod-foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:22px;
+           padding-top:16px;border-top:1px solid var(--rule)}
+.price{font-family:var(--mono);font-size:22px;font-weight:600;letter-spacing:-.02em}
+.price small{font-size:12.5px;font-weight:400;color:var(--ink-2);margin-left:3px}
+.price s{color:var(--ink-3);font-size:14px;font-weight:400;margin-right:8px}
+.trial{font-size:12.5px;color:var(--ink-2);font-family:var(--mono)}
+.prod-foot .btn{margin-left:auto}
+@media(max-width:860px){
+  .prod{grid-template-columns:1fr;gap:26px}
+  .prod:nth-child(even) .shot{order:0}
+  .prod-foot .btn{margin-left:0}
+}
+
+/* 手機示意框（示意圖，非實際畫面） */
+.shot{position:relative}
+.frame{border:1px solid var(--rule);border-radius:16px;background:var(--panel);
+       padding:9px;max-width:100%;width:248px;margin-inline:auto}
+.screen{border:1px solid var(--rule-2);border-radius:10px;background:var(--paper);
+        aspect-ratio:9/17;padding:14px 12px;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+.s-bar{height:5px;width:42%;border-radius:3px;background:var(--pc);opacity:.85}
+.s-h{height:9px;width:66%;border-radius:2px;background:var(--ink);opacity:.55}
+.s-row{display:flex;align-items:center;gap:7px;padding-top:8px;border-top:1px solid var(--rule-2)}
+.s-dot{width:7px;height:7px;border-radius:2px;background:var(--pc);flex:none;opacity:.7}
+.s-l{height:6px;border-radius:2px;background:var(--ink);opacity:.2;flex:1}
+.s-l.sm{flex:0 0 34%}
+.s-note{text-align:center;font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+        margin-top:10px;letter-spacing:.06em}
+
+/* ---------- 情境 ---------- */
+.why{border-top:1px solid var(--rule);padding-block:clamp(44px,7vw,72px)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:26px}
+.why-grid > div{padding:24px 26px;border-left:1px solid var(--rule)}
+.why-grid > div:first-child{padding-left:0;border-left:none}
+.why-grid > div:last-child{padding-right:0}
+.why-grid h3{font-size:17px;margin-bottom:8px}
+.why-grid p{font-size:14.5px;color:var(--ink-2)}
+.why-grid .lab{display:block;margin-bottom:10px}
+@media(max-width:780px){
+  .why-grid{grid-template-columns:1fr}
+  .why-grid > div{padding:20px 0;border-left:none;border-top:1px solid var(--rule)}
+  .why-grid > div:first-child{border-top:none;padding-top:8px}
+}
+
+/* ---------- 價目表 ---------- */
+.rates{border-top:1px solid var(--rule);padding-block:clamp(44px,7vw,72px)}
+.tbl-wrap{overflow-x:auto;margin-top:24px;border:1px solid var(--rule);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+caption{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+        color:var(--ink-3);padding:12px 16px;border-bottom:1px solid var(--rule);text-transform:uppercase}
+th,td{padding:13px 16px;text-align:left;border-top:1px solid var(--rule-2);vertical-align:middle}
+thead th{font-weight:600;font-size:12px;color:var(--ink-2);background:var(--paper-2);
+         border-top:none;font-family:var(--mono);letter-spacing:.06em}
+tbody tr:hover{background:var(--panel)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.n s{color:var(--ink-3);font-size:12.5px;margin-right:6px}
+tr.hl td{background:var(--brand-soft)}
+tr.hl td:first-child{font-weight:700}
+.rate-note{font-size:13px;color:var(--ink-2);margin-top:14px}
+
+/* ---------- FAQ ---------- */
+.faq{border-top:1px solid var(--rule);padding-block:clamp(44px,7vw,72px)}
+details{border-top:1px solid var(--rule-2);padding:4px 0}
+details:first-of-type{border-top:1px solid var(--rule);margin-top:22px}
+summary{cursor:pointer;padding:15px 30px 15px 0;font-weight:500;font-size:15.5px;
+        list-style:none;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:13px;font-family:var(--mono);
+               font-size:19px;color:var(--brand);line-height:1}
+details[open] summary::after{content:"\2013"}
+details p{padding:0 0 16px;font-size:14.5px;color:var(--ink-2);max-width:44em}
+summary:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+
+/* ---------- 聯絡 / 頁尾 ---------- */
+.contact{border-top:1px solid var(--rule);padding-block:clamp(40px,6vw,64px);
+         display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center}
+.contact h2{font-size:clamp(21px,3.4vw,28px)}
+.contact p{color:var(--ink-2);font-size:14.5px;margin-top:8px}
+.contact code{font-family:var(--mono);background:var(--panel);border:1px solid var(--rule);
+              border-radius:var(--r);padding:2px 8px;font-size:14px;-webkit-user-select:all;user-select:all}
+@media(max-width:680px){.contact{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--rule);padding-block:26px 34px;font-size:12.5px;color:var(--ink-3);
+       display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center}
+footer .mark{font-size:14px;color:var(--ink-2)}
+footer a{text-decoration:none}
+footer a:hover{color:var(--brand)}
+footer .sp{margin-left:auto}
+
+a:focus-visible,.btn:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="mark">智在<span>生活</span></div>
+    <div class="tag">專屬智能神隊友</div>
+    <nav>
       <a href="#products">產品</a>
-      <a href="#story">理念</a>
-      <a href="#contact">聯絡</a>
+      <a href="#rates">價格</a>
+      <a href="#faq">常見問題</a>
     </nav>
   </div>
 </header>
 
-<main id="main">
+<main>
+<section class="hero wrap">
+  <h1>家裡的事、生意的事，<br>都有人幫你<em>記著</em>。</h1>
+  <p class="sub">四個各自獨立的工具，處理最容易忘記也最花時間的四件事：家務安排、每天煮什麼、出門的行程、客戶與收款。全部都能先免費試用，滿意再付費。</p>
+  <div class="cta-row">
+    <a class="btn btn-1" href="#products">免費試用</a>
+    <a class="btn btn-2" href="#rates">看價格</a>
+  </div>
+  <div class="hero-meta">
+    <span>已上線 <b>4</b> 個產品</span>
+    <span>試用 <b>14–30</b> 天</span>
+    <span>免安裝，手機開網頁就能用</span>
+  </div>
+</section>
 
-  <!-- ===== Hero ===== -->
-  <section class="hero" id="top">
-    <div class="wrap hero-inner">
-      <p class="hero-eyebrow">智在生活</p>
-      <h1 class="hero-title">
-        專屬智能神隊友<br>
-        做出讓生活更好的 App
-      </h1>
-      <p class="hero-desc">
-        從真實生活需求出發，打造簡單、實用的數位工具，<br class="br-desktop">
-        讓生活少一點繁瑣，多一點便利。
-      </p>
-      <a class="hero-cta" href="#products">看看我們在做什麼</a>
-    </div>
-    <div class="hero-motif" aria-hidden="true">
-      <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
-        <path class="motif-line" d="M0,110 C 70,40 140,150 210,80 C 280,20 340,120 400,60" />
-        <circle class="motif-dot" cx="70" cy="66" r="5"/>
-        <circle class="motif-dot" cx="210" cy="80" r="5"/>
-        <circle class="motif-dot" cx="340" cy="90" r="5"/>
-      </svg>
-    </div>
-  </section>
+<section class="fork wrap">
+  <div>
+    <h3>生活用</h3>
+    <p>給每天要顧一個家的人。</p>
+    <ul>
+      <li><b>生活管家</b><span>$999 / 年</span></li>
+      <li><b>食在料理</b><span>$999 / 年</span></li>
+      <li><b>旅遊計畫</b><span>$999 / 年</span></li>
+      <li><b>三個一起</b><span>$1,999 / 年</span></li>
+    </ul>
+  </div>
+  <div>
+    <h3>生意用</h3>
+    <p>給到府服務、工作室的經營者。</p>
+    <ul>
+      <li><b>客戶管理</b><span>$6,000 / 年</span></li>
+      <li><b>＋ 加購生活管家</b><span>加 $600</span></li>
+    </ul>
+    <p style="margin-top:14px;font-size:13px">客戶、合約、預約、收款，一個系統管完。</p>
+  </div>
+</section>
 
-  <!-- ===== 品牌理念 ===== -->
-  <section class="story reveal" id="story">
-    <div class="wrap story-inner">
-      <div class="story-icons" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 12c0-4 4-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4 12h20l-1.6 9.2a2 2 0 0 1-2 1.8H7.6a2 2 0 0 1-2-1.8L4 12z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="6" width="20" height="18" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 11h20" stroke="currentColor" stroke-width="1.6"/><path d="M9 4v4M19 4v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 14l6 6L23 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <h2 class="story-title">為什麼我們做這些 App</h2>
-      <p class="story-text">
-        生活裡總有些小事，一直被拖著沒解決——今天要煮什麼、
-        東西買了沒有、事情安排到哪裡了。我們相信這些瑣碎，
-        值得被好好對待。
-      </p>
-      <p class="story-text">
-        智在生活從這些真實的日常出發，一個一個把它們做成
-        簡單好用的工具。不追求大而全，只希望每個 App
-        都能真正被用起來，讓生活踏實地輕鬆一點。
-      </p>
-    </div>
-  </section>
+<section id="products">
+  <div class="sec-head wrap">
+    <h2>四個產品</h2>
+    <p>各自獨立、各自收費。可以只買一個，也可以組合。共用同一組帳號，用 Email 登入就好。</p>
+  </div>
 
-  <!-- ===== 主要產品 ===== -->
-  <section class="products" id="products">
-    <div class="wrap">
-      <p class="section-eyebrow">主要產品</p>
-    </div>
-
-    <!-- 食在料理 -->
-    <article class="product reveal">
-      <div class="wrap product-inner">
-        <div class="product-media">
-          <!-- 圖片替換位置：食在料理 App 截圖，建議尺寸 720x1440 或實際比例 -->
-          <img src="images/food-app.png" alt="食在料理 App 畫面"
-               onerror="this.parentElement.classList.add('media-fallback')">
-        </div>
-        <div class="product-copy">
-          <h3 class="product-name">食在料理</h3>
-          <p class="product-tagline">從想吃什麼，到手上有什麼，再到找到自己的拿手菜。</p>
-          <p class="product-desc">
-            不是單純的食譜資料庫，而是陪你走完每天「吃什麼、
-            手上有什麼、怎麼煮、要買什麼」的完整料理流程。
-          </p>
-
-          <ol class="flow" aria-label="食在料理使用流程">
-            <li><span class="flow-dot"></span>找菜色</li>
-            <li><span class="flow-dot"></span>看食材</li>
-            <li><span class="flow-dot"></span>學步驟</li>
-            <li><span class="flow-dot"></span>採購</li>
-            <li><span class="flow-dot"></span>管理庫存</li>
-            <li><span class="flow-dot"></span>我的拿手菜</li>
-          </ol>
-
-          <span class="status-tag status-live">已上線</span>
-        </div>
-      </div>
-    </article>
-
-    <!-- 智能行事曆 -->
-    <article class="product product-alt reveal">
-      <div class="wrap product-inner">
-        <div class="product-media">
-          <!-- 圖片替換位置：智能行事曆 App 截圖，建議尺寸 720x1440 或實際比例 -->
-          <img src="images/calendar-app.png" alt="智能行事曆 App 畫面"
-               onerror="this.parentElement.classList.add('media-fallback')">
-        </div>
-        <div class="product-copy">
-          <h3 class="product-name">智能行事曆</h3>
-          <p class="product-tagline">不只是行事曆，是更進一步的生活管理工具。</p>
-          <p class="product-desc">
-            除了安排「什麼時候要做什麼」，也一併照顧生活中
-            需要留意與管理的事——包含庫存管理，以及其他
-            持續加入的生活管理功能。
-          </p>
-          <ul class="feature-list">
-            <li>行事曆規劃與提醒</li>
-            <li>生活庫存管理</li>
-            <li>持續擴充的生活管理功能</li>
-          </ul>
-          <span class="status-tag status-live">已上線</span>
-        </div>
-      </div>
-    </article>
-  </section>
-
-  <!-- ===== 正在開發 ===== -->
-  <section class="upcoming reveal" id="upcoming">
-    <div class="wrap">
-      <p class="section-eyebrow">正在開發</p>
-      <h2 class="upcoming-title">還有更多，正在路上</h2>
-      <ul class="upcoming-list">
-        <li>
-          <span class="up-dot"></span>
-          <span class="up-name">客戶維護系統</span>
-          <span class="status-tag status-dev">開發中</span>
-        </li>
-        <li>
-          <span class="up-dot"></span>
-          <span class="up-name">美食查詢</span>
-          <span class="status-tag status-dev">開發中</span>
-        </li>
-        <li>
-          <span class="up-dot"></span>
-          <span class="up-name">旅遊查詢</span>
-          <span class="status-tag status-dev">開發中</span>
-        </li>
+  <!-- 生活管家 -->
+  <div class="wrap">
+  <article class="prod" style="--pc:var(--p-home)">
+    <div>
+      <div class="prod-tag"><i></i><span>Home</span></div>
+      <h3>生活管家</h3>
+      <p class="lead">不只是行事曆。把「什麼時候要做」跟「家裡還有什麼」接在一起，所以買完打勾會自動入庫，不會再買到第三罐醬油。</p>
+      <ul class="feat">
+        <li><b>行程與待辦</b><span>10 種分類記事、重複行程設一次自動排好</span></li>
+        <li><b>一頁總覽</b><span>行程、待辦、記事集中看</span></li>
+        <li><b>目標追蹤</b><span>每週運動、存旅遊基金、考證照，3 種追蹤方式</span></li>
+        <li><b>採購 × 庫存</b><span>買完打勾自動入庫，剩多少、何時到期一目了然</span></li>
+        <li><b>多裝置同步</b><span>一人記錄，最多 3 台裝置一起看</span></li>
       </ul>
-    </div>
-  </section>
-
-  <!-- ===== 品牌收尾 ===== -->
-  <section class="closing reveal">
-    <div class="wrap closing-inner">
-      <p class="closing-text">
-        我們會持續把生活裡的小麻煩，<br>
-        一個一個變成好用的工具。
-      </p>
-      <p class="closing-sub">歡迎之後再回來看看。</p>
-    </div>
-  </section>
-
-  <!-- ===== 聯絡我們 ===== -->
-  <section class="contact reveal" id="contact">
-    <div class="wrap contact-inner">
-      <p class="section-eyebrow">聯絡我們</p>
-      <h2 class="contact-title">有想法，歡迎跟我們說</h2>
-      <div class="contact-list">
-        <a class="contact-item" href="#" aria-label="LINE 官方帳號（尚未提供連結）">
-          <span class="contact-label">LINE</span>
-          <span class="contact-value">@handyassist_placeholder</span>
-        </a>
-        <a class="contact-item" href="mailto:hello@example.com">
-          <span class="contact-label">Email</span>
-          <span class="contact-value">hello@example.com</span>
-        </a>
+      <div class="prod-foot">
+        <span class="price">$999<small>/年</small></span>
+        <span class="trial">試用 21 天</span>
+        <a class="btn btn-1 btn-s" href="https://handyassist-system.github.io/My-Schedule/">免費試用</a>
       </div>
-      <!-- 以上 LINE／Email 為預留位置，請替換為正式資訊 -->
     </div>
-  </section>
+    <div class="shot">
+      <div class="frame"><div class="screen">
+        <div class="s-bar"></div><div class="s-h"></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+      </div></div>
+      <p class="s-note">產品畫面示意</p>
+    </div>
+  </article>
 
+  <!-- 食在料理 -->
+  <article class="prod" style="--pc:var(--p-cook)">
+    <div>
+      <div class="prod-tag"><i></i><span>Kitchen</span></div>
+      <h3>食在料理</h3>
+      <p class="lead">從「冰箱剩這些，今天煮什麼」開始，一路到採買清單。不是食譜網站，是把一餐從決定到上桌整段接起來。</p>
+      <ul class="feat">
+        <li><b>用食材找菜</b><span>冰箱有什麼就煮什麼</span></li>
+        <li><b>今日料理</b><span>排好今天要做的幾道，早中晚分開</span></li>
+        <li><b>完整烹調步驟</b><span>火候、時間、備料、小技巧與容易失敗的地方</span></li>
+        <li><b>採購自動彙整</b><span>缺的食材直接變成一張清單</span></li>
+        <li><b>我的庫存</b><span>食材剩多少、什麼時候會壞</span></li>
+      </ul>
+      <div class="prod-foot">
+        <span class="price">$999<small>/年</small></span>
+        <span class="trial">試用 14 天</span>
+        <a class="btn btn-1 btn-s" href="https://handyassist-system.github.io/My-Cooking/">免費試用</a>
+      </div>
+    </div>
+    <div class="shot">
+      <div class="frame"><div class="screen">
+        <div class="s-bar"></div><div class="s-h"></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+      </div></div>
+      <p class="s-note">產品畫面示意</p>
+    </div>
+  </article>
+
+  <!-- 旅遊計畫 -->
+  <article class="prod" style="--pc:var(--p-trip)">
+    <div>
+      <div class="prod-tag"><i></i><span>Travel</span></div>
+      <h3>旅遊計畫</h3>
+      <p class="lead">出國前最累的不是選景點，是把交通接起來、把錢算清楚、把該帶的東西記住。這三件事在這裡一次做完。</p>
+      <ul class="feat">
+        <li><b>逐日行程</b><span>每天去哪、幾點到、地圖上一次看完</span></li>
+        <li><b>交通段銜接</b><span>上一站到下一站怎麼接，不會卡在中間</span></li>
+        <li><b>花費彙總</b><span>含匯率換算，回國不用重算一次</span></li>
+        <li><b>行前準備清單</b><span>必備品可直接帶入，不用每次重寫</span></li>
+        <li><b>列印／存 PDF</b><span>印一份帶著走，沒網路也看得到</span></li>
+      </ul>
+      <div class="prod-foot">
+        <span class="price">$999<small>/年</small></span>
+        <span class="trial">試用 14 天</span>
+        <a class="btn btn-1 btn-s" href="https://handyassist-system.github.io/My-travel-plan/">免費試用</a>
+      </div>
+    </div>
+    <div class="shot">
+      <div class="frame"><div class="screen">
+        <div class="s-bar"></div><div class="s-h"></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+      </div></div>
+      <p class="s-note">產品畫面示意</p>
+    </div>
+  </article>
+
+  <!-- 客戶管理 -->
+  <article class="prod" style="--pc:var(--p-crm)">
+    <div>
+      <div class="prod-tag"><i></i><span>Business</span></div>
+      <h3>客戶管理</h3>
+      <p class="lead">給到府服務業者。取代 Excel 加記事本加一堆 LINE 對話 —— 客戶是誰、合約到什麼時候、這個月收了多少，不用再翻。</p>
+      <ul class="feat">
+        <li><b>客戶名單</b><span>聯絡方式、服務紀錄、來源，一頁看完</span></li>
+        <li><b>合約管理</b><span>期間、內容、到期提醒</span></li>
+        <li><b>預約排程</b><span>誰、哪天、什麼服務</span></li>
+        <li><b>收款紀錄</b><span>收了多少、還有誰沒付</span></li>
+        <li><b>營運儀表板</b><span>這個月的狀況一眼看到</span></li>
+        <li><b>服務追蹤</b><span>上次什麼時候來過，該不該回訪</span></li>
+      </ul>
+      <div class="prod-foot">
+        <span class="price"><s>$7,200</s>$6,000<small>/年</small></span>
+        <span class="trial">試用 30 天 · 前 15 位早鳥價</span>
+        <a class="btn btn-1 btn-s" href="https://handyassist-system.github.io/My-CRM/">免費試用</a>
+      </div>
+    </div>
+    <div class="shot">
+      <div class="frame"><div class="screen">
+        <div class="s-bar"></div><div class="s-h"></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l"></span></div>
+        <div class="s-row"><span class="s-dot"></span><span class="s-l sm"></span></div>
+      </div></div>
+      <p class="s-note">產品畫面示意</p>
+    </div>
+  </article>
+  </div>
+</section>
+
+<section class="why wrap">
+  <h2>為什麼不是再下載一個 App</h2>
+  <div class="why-grid">
+    <div>
+      <span class="lab">01　接起來</span>
+      <h3>兩件事之間，最容易漏掉</h3>
+      <p>採購清單打勾，庫存自動加上去。冰箱剩什麼，直接變成今天煮什麼。麻煩的從來不是單一功能，是中間沒人幫你接。</p>
+    </div>
+    <div>
+      <span class="lab">02　用得起來</span>
+      <h3>不用安裝，也不用學</h3>
+      <p>手機開網頁就能用，Email 登入，沒有帳號密碼要記。可以加到桌面，用起來跟 App 一樣。</p>
+    </div>
+    <div>
+      <span class="lab">03　先試再說</span>
+      <h3>試用期內功能全開</h3>
+      <p>不是給你半殘的版本。試用期間所有功能都能用，你自己判斷值不值得。到期後資料還在，不會消失。</p>
+    </div>
+  </div>
+</section>
+
+<section id="rates" class="rates wrap">
+  <h2>價格</h2>
+  <p style="color:var(--ink-2);font-size:15px;margin-top:8px">全部年繳。括號內是平均每月換算。</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <caption>生活用</caption>
+      <thead><tr><th>方案</th><th>試用</th><th>裝置數</th><th>年費</th></tr></thead>
+      <tbody>
+        <tr><td>生活管家</td><td class="n">21 天</td><td class="n">3 台</td><td class="n">$999<small style="color:var(--ink-3)"> ($83/月)</small></td></tr>
+        <tr><td>食在料理</td><td class="n">14 天</td><td class="n">3 台</td><td class="n">$999<small style="color:var(--ink-3)"> ($83/月)</small></td></tr>
+        <tr><td>旅遊計畫</td><td class="n">14 天</td><td class="n">3 台</td><td class="n">$999<small style="color:var(--ink-3)"> ($83/月)</small></td></tr>
+        <tr class="hl"><td>三個一起</td><td class="n">同上</td><td class="n">3 台</td><td class="n"><s>$2,997</s>$1,999<small style="color:var(--ink-3)"> ($167/月)</small></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <caption>生意用</caption>
+      <thead><tr><th>方案</th><th>試用</th><th>裝置數</th><th>年費</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>客戶管理</td><td class="n">30 天</td><td class="n">3 台</td><td class="n"><s>$7,200</s>$6,000<small style="color:var(--ink-3)"> ($500/月)</small></td></tr>
+        <tr><td>＋ 加購生活管家</td><td class="n">21 天</td><td class="n">3 台</td><td class="n">加 $600<small style="color:var(--ink-3)"> (單買 $999)</small></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="rate-note">客戶管理早鳥價限前 15 位，續約維持同價。免費版功能有限但不會過期，資料一直都在。</p>
+</section>
+
+<section id="faq" class="faq wrap">
+  <h2>常見問題</h2>
+
+  <details open>
+    <summary>要怎麼開始試用？</summary>
+    <p>點任何一個產品的「免費試用」，用 Email 收一封登入信，點信裡的連結就進去了。不用設密碼、不用填資料、不用先付錢。</p>
+  </details>
+  <details>
+    <summary>試用到期會怎樣？</summary>
+    <p>會切換成免費版。免費版功能比較少，但不會過期，你之前建立的資料都還在，不會被刪掉。之後想升級隨時可以。</p>
+  </details>
+  <details>
+    <summary>怎麼付款？多久開通？</summary>
+    <p>線上刷卡。付款時請填你登入用的那個 Email，我們才知道要幫哪個帳號開通。收到款項後 1 個工作天內完成，開通後重開一次就是完整版。</p>
+  </details>
+  <details>
+    <summary>可以退費嗎？</summary>
+    <p>不提供退費，所以請一定要先試用。每個產品的試用期功能全部開放，時間也給得夠長（14 到 30 天），足夠你判斷合不合用。付款前需要勾選同意，我們才會開通。若因系統重大瑕疵導致無法使用且未能修復，可個案協商。</p>
+  </details>
+  <details>
+    <summary>資料存在哪裡？安全嗎？</summary>
+    <p>存在 Google Firebase，用你的登入 Email 隔離，其他使用者讀不到。共用裝置時請記得登出。客戶管理另有完整的資料條款，App 內可以看。</p>
+  </details>
+  <details>
+    <summary>可以在幾台裝置上用？</summary>
+    <p>付費後同一個帳號最多 3 台，資料即時同步。免費版 1 台。</p>
+  </details>
+  <details>
+    <summary>需要安裝嗎？</summary>
+    <p>不用。手機開網頁就能用。想要的話可以「加入主畫面」，用起來跟一般 App 一樣，也能離線看已經載入的資料。</p>
+  </details>
+</section>
+
+<section id="contact" class="contact wrap">
+  <div>
+    <h2>有問題直接問</h2>
+    <p>方案怎麼選、功能能不能做到、付款或開通有狀況，都可以問。<br>
+       官方 LINE　智在生活　·　Email　<code>beyunself@hotmail.com</code></p>
+  </div>
+  <a class="btn btn-1" href="https://line.me/R/ti/p/@373pfdee">加入官方 LINE</a>
+</section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <div class="footer-brand">
-      <p class="footer-name">智在生活</p>
-      <p class="footer-slogan">專屬智能神隊友</p>
-      <p class="footer-mission">做出讓生活更好的 App。</p>
-    </div>
-    <nav class="footer-links" aria-label="法律與聯絡">
-      <a href="#">隱私權政策</a>
-      <a href="#">服務條款</a>
-      <a href="#contact">聯絡我們</a>
-    </nav>
-  </div>
-  <div class="wrap footer-bottom">
-    <p>&copy; <span id="year"></span> 智在生活．All rights reserved.</p>
-  </div>
+<footer class="wrap">
+  <span class="mark">智在生活</span>
+  <span>專屬智能神隊友</span>
+  <span class="sp"><a href="#products">產品</a></span>
+  <span><a href="#rates">價格</a></span>
+  <span><a href="#faq">常見問題</a></span>
+  <span style="flex-basis:100%;padding-top:10px;border-top:1px solid var(--rule-2);margin-top:4px">
+    聯絡　beyunself@hotmail.com　·　官方 LINE　智在生活
+  </span>
 </footer>
-
-<script src="script.js"></script>
-</body>
-</html>
